@@ -13,6 +13,7 @@ ar::db::db(std::string_view url)
 	int port = 6379;
 	unsigned int dbn = 7;
 	context = redisConnect(ip, port);
+	check_and_throw();
 	select(dbn);
 }
 
