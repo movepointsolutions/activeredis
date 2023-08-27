@@ -13,13 +13,6 @@ ar::db::db(std::string_view url)
 	int port = 6379;
 	unsigned int dbn = 7;
 	context = redisConnect(ip, port);
-	if (!ctx())
-		throw std::runtime_error("Unable to connect to Redis");
-	else {
-		auto err = error();
-		if (err.code)
-			throw std::runtime_error(err.desc);
-	}
 	select(dbn);
 }
 
@@ -29,6 +22,17 @@ ar::db::error_type db::error() const
 	if (ret.code = ctx()->err)
 		ret.desc = ctx()->errstr;
 	return ret;
+}
+
+ar::db::check_and_throw() const
+{
+	if (!ctx())
+		throw std::runtime_error("NULL Redis context");
+	else {
+		auto err = error();
+		if (err.code)
+			throw std::runtime_error(err.desc);
+	}
 }
 
 void

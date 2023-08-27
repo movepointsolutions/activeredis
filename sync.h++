@@ -23,6 +23,7 @@ public:
 	redisContext *ctx() { return context; }
 	const redisContext *ctx() const { return context; }
 	error_type error() const;
+	ar::db::check_and_throw() const;
 	void select(unsigned int db);
 	std::string get(std::string_view key);
 };
