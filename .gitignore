@@ -32,7 +32,7 @@
 *.app
 
 CMakeFiles/
-CMakeLists.txt
+CMakeCache.txt
 Makefile
 cmake_install.cmake
 test_sync
