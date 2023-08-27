@@ -36,3 +36,4 @@ CMakeLists.txt
 Makefile
 cmake_install.cmake
 test_sync
+*.core

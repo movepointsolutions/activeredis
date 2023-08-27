@@ -1,5 +1,6 @@
 #include <iostream>
 #include <sstream>
+#include <stdexcept>
 #include <string>
 #include <hiredis.h>
 #include "sync.h++"
@@ -12,7 +13,22 @@ ar::db::db(std::string_view url)
 	int port = 6379;
 	unsigned int dbn = 7;
 	context = redisConnect(ip, port);
+	if (!ctx())
+		throw std::runtime_error("Unable to connect to Redis");
+	else {
+		auto err = error();
+		if (err.code)
+			throw std::runtime_error(err.desc);
+	}
 	select(dbn);
+}
+
+ar::db::error_type db::error() const
+{
+	error_type ret;
+	if (ret.code = ctx()->err)
+		ret.desc = ctx()->errstr;
+	return ret;
 }
 
 void
@@ -31,7 +47,9 @@ ar::db::get(std::string_view key)
 		redisCommand(ctx(), cmd_str.c_str())
 	);
 	if (reply->type == REDIS_REPLY_STRING) {
-		return std::string(reply->str, reply->str + reply->len);
+		const char *str = reply->str;
+		size_t len = reply->len;
+		return std::string(str, str + len);
 	} else
 		std::cerr << reply->type << std::endl;
 	return "ERROR";
