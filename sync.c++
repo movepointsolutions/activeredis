@@ -24,7 +24,7 @@ ar::db::error_type db::error() const
 	return ret;
 }
 
-ar::db::check_and_throw() const
+void ar::db::check_and_throw() const
 {
 	if (!ctx())
 		throw std::runtime_error("NULL Redis context");
