@@ -4,6 +4,8 @@ project(activeredis)
 include(FindPkgConfig)
 pkg_search_module(HIREDIS REQUIRED hiredis)
 
+add_subdirectory(teach)
+
 add_library(ar_sync
 	sync.c++
 )
@@ -15,4 +17,5 @@ add_executable(test_sync
 	test_sync.cpp
 )
 set_property(TARGET test_sync PROPERTY CXX_STANDARD 17)
+target_include_directories(test_sync PRIVATE teach)
 target_link_libraries(test_sync PUBLIC ar_sync)

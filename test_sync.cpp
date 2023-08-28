@@ -1,5 +1,19 @@
 #include <iostream>
+#include <memory>
 #include "sync.h++"
+#include "algorithm.h++"
+#include "model.h++"
+
+struct model_type : public teach::model<std::string, std::string>
+{
+	void emit(const std::string &k, const std::string &v)
+	{
+		std::cout << k << ", " << v << "!" << std::endl;
+	}
+};
+
+typedef teach::algorithm<std::unique_ptr<model_type>> algorithm_type;
+algorithm_type algorithm(std::unique_ptr<model_type>(new model_type()));
 
 void
 test1()
@@ -7,8 +21,9 @@ test1()
 	//using seventh database at localhost
 	//standard port
 	ar::db db("redis://127.0.0.1:6379/7");
-	std::string world = db.get("hello");
-	std::cout << "Hello, " << world << std::endl;
+	auto key = "hello";
+	auto value = db.get(key);
+	algorithm.transport(key, value);
 }
 
 int
