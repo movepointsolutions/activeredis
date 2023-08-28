@@ -9,7 +9,7 @@ class db : public ar::db
 public:
 	struct model_type
 		: public teach::model<std::string_view, std::string_view>
-		, public std::enable_shared_from_this<model_type>
+		//, public std::enable_shared_from_this<model_type>
 	{
 		void emit(const std::string_view &k,
 		          const std::string_view &v)
