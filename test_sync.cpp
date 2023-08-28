@@ -11,6 +11,7 @@ public:
 		: public teach::model<std::string_view, std::string_view>
 		//, public std::enable_shared_from_this<model_type>
 	{
+		// we are emitting K/V pairs
 		void emit(const std::string_view &k,
 		          const std::string_view &v)
 		{
@@ -19,7 +20,10 @@ public:
 	};
 
 	typedef std::shared_ptr<model_type> mptr_type;
-	typedef teach::algorithm<mptr_type> algorithm_type;
+
+	class algorithm_type : public teach::algorithm<mptr_type>
+	{
+	};
 
 	mptr_type model;
 	algorithm_type algorithm;
