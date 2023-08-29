@@ -23,6 +23,15 @@ public:
 
 	class algorithm_type : public teach::algorithm<mptr_type>
 	{
+	public:
+		algorithm_type(mptr_type mdl)
+			: teach::algorithm<mptr_type>(mdl)
+		{ }
+
+		void handle(std::string_view k, std::string_view v)
+		{
+			transport(k, v);
+		}
 	};
 
 	mptr_type model;
@@ -35,18 +44,18 @@ public:
 	     , algorithm(model)
 	{ }
 
-	void handle_key(std::string_view key)
+	void handle_world()
 	{
-		std::string_view k{key};
+		std::string_view k{"world"};
 		std::string v = this->get(k);
-		algorithm.transport(k, v);
+		algorithm.handle(k, v);
 	}
 };
 
 void
 test1()
 {
-	db().handle_key("world");
+	db().handle_world();
 }
 
 int
